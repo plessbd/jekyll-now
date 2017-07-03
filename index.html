@@ -4,7 +4,7 @@ layout: default
 
 <div class="posts">
   {% for post in site.posts %}
-    <article class="post">
+<!--    <article class="post">
 
       <h1><a href="{{ site.baseurl }}{{ post.url }}">{{ post.title }}</a></h1>
 
@@ -14,5 +14,10 @@ layout: default
 
       <a href="{{ site.baseurl }}{{ post.url }}" class="read-more">Read More</a>
     </article>
+-->
+    <section {% if post.slide-id %}id="{{post.slide-id}}"{%endif %} class="step{%if post.classes | size %}{% for class in post.classes %} {{class}}{% endfor %}{% else %} slide{% endif %}" {% unless site.simple-slideshow %}{% for attr in post.data %} data-{{attr[0]}}="{{attr[1]}}"{% endfor %}{% endunless %}>
+      {% if post.title != "" %}<h1>{{ post.title }}</h1>{% endif %}
+      {{ post.content }}
+    </section>
   {% endfor %}
 </div>
