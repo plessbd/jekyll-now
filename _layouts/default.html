@@ -1,51 +1,67 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <title>{% if page.title %}{{ page.title }} – {% endif %}{{ site.name }} – {{ site.description }}</title>
+<html class="{% if site.solarized.theme %}{{site.solarized.theme}}{% else %}dark{% endif %}">
+<head>
+<meta charset="utf-8">
 
-    {% include meta.html %}
+<title>{% if post.title %}{{ post.title }} | {{ page.title }}{% else %}{{ site.title }}{% endif %}</title>
 
-    <!--[if lt IE 9]>
-      <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+<meta name="author" content="{{ site.author }}">
+<meta name="description" content="{{ site.description }}">
 
-    <link rel="stylesheet" type="text/css" href="{{ site.baseurl }}/style.css" />
-    <link rel="alternate" type="application/rss+xml" title="{{ site.name }} - {{ site.description }}" href="{{ site.baseurl }}/feed.xml" />
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
-    <!-- Created with Jekyll Now - http://github.com/barryclark/jekyll-now -->
-  </head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-  <body>
-    <div class="wrapper-masthead">
-      <div class="container">
-        <header class="masthead clearfix">
-          <a href="{{ site.baseurl }}/" class="site-avatar"><img src="{{ site.avatar }}" /></a>
+<link rel="stylesheet" href="{{ site.github.url }}/assets/css/style.css">
+<!-- jQuery -->
+<script src="{{ site.github.url }}/assets/js/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+	<div class="reveal">
+		<div class="slides">
+			{{ content }}
+		</div>
+	</div>
+<script src="{{ site.github.url }}/reveal.js/lib/js/head.min.js"></script>
+<script src="{{ site.github.url }}/reveal.js/js/reveal.js"></script>
 
-          <div class="site-info">
-            <h1 class="site-name"><a href="{{ site.baseurl }}/">{{ site.name }}</a></h1>
-            <p class="site-description">{{ site.description }}</p>
-          </div>
+<!-- reveal.js init -->
+<script>
+  // Full list of configuration options available here:
+  // https://github.com/hakimel/reveal.js#configuration
+  Reveal.initialize({
+    {% if site.reveal %}
+    {% for attr in site.reveal %}{{attr[0]}}: {% unless {attr[1]} == false or {attr[1]} == true %}'{{attr[1]}}',{% else %}{{attr[1]}},{% endunless %}
+    {% endfor %}
+    {% endif %}
+    theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+    transition: Reveal.getQueryHash().transition || {% if site.reveal.transition %}'{{ site.reveal.transition }}',{% else %}'default',{% endif %} // default/cube/page/concave/zoom/linear/fade/none
+    // Optional libraries used to extend on reveal.js
+    dependencies: [
+      // Cross-browser shim that fully implements classList - https://github.com/eligrey/classList.js/
+      { src: '{{ site.github.url }}/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+      // Zoom in and out with Alt+click
+      { src: '{{ site.github.url }}/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Speaker notes
+      { src: '{{ site.github.url }}/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+      // Remote control your reveal.js presentation using a touch device
+      //{ src: '{{ site.github.url }}/reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } },
+      // MathJax
+      { src: '{{ site.github.url }}/reveal.js/plugin/math/math.js', async: true }
+    ]
+  });
+</script>
+<!-- End reveal.js init -->
 
-          <nav>
-            <a href="{{ site.baseurl }}/">Blog</a>
-            <a href="{{ site.baseurl }}/about">About</a>
-          </nav>
-        </header>
-      </div>
-    </div>
-
-    <div id="main" role="main" class="container">
-      {{ content }}
-    </div>
-
-    <div class="wrapper-footer">
-      <div class="container">
-        <footer class="footer">
-          {% include svg-icons.html %}
-        </footer>
-      </div>
-    </div>
-
-    {% include analytics.html %}
-  </body>
+<!-- Fontawesome -->
+<script type="text/javascript">
+  $(document).ready(function() {
+    $("blockquote").prepend( $( "<i class='fa fa-quote-left'></i>" ) );
+    $("a.button.lighter").click( function() { $("html.dark").removeClass("dark").addClass("light"); });
+    $("a.button.darker").click( function() { $("html.light").removeClass("light").addClass("dark"); });
+  });
+</script>
+<!-- End Fontawesome -->
+</body>
 </html>
